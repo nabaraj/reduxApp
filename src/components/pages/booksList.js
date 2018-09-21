@@ -3,6 +3,7 @@ import React,{Component} from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {getBooks} from '../../actions/booksActions';
+import {Grid, Row, Button, Col} from 'react-bootstrap';
 
 class BooksList extends Component{
     componentDidMount(){
@@ -11,14 +12,17 @@ class BooksList extends Component{
     render(){
         const BooksItem = this.props.books.map(function(booksArr){
             return(
-                <li key={booksArr.id}>
+                <Col xs={12} md={4}>
+                <div key={booksArr.id}>
                     <h3>{booksArr.title}</h3>
                     <div>{booksArr.descripttion}</div>
                     <div>{booksArr.price}</div>
-                </li>
+                </div>
+                <Button>Click</Button>
+                </Col>
             );
         })
-        return(<div><ul>{BooksItem}</ul></div>)
+        return(<Grid><Row style={{marginTop:'15px'}}>{BooksItem}</Row></Grid>)
     }
 }
 function mapStateToProps(state){
