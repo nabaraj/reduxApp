@@ -14,11 +14,11 @@ class BooksList extends Component{
             return(
                 <Col xs={12} md={4}>
                 <div key={booksArr.id}>
-                    <h3>{booksArr.title}</h3>
-                    <div>{booksArr.descripttion}</div>
-                    <div>{booksArr.price}</div>
+                    <h6>{booksArr.title}</h6>
+                    <p>{booksArr.descripttion}</p>
+                    <h6>{booksArr.price}</h6>
                 </div>
-                <Button>Click</Button>
+                <Button bsStyle="primary">Click</Button>
                 </Col>
             );
         })
