@@ -6,14 +6,8 @@ import {addToCart} from '../../actions/cartActions';
 
 class BookItem extends React.Component{
     handleCart(){
-        console.log({
-            id:this.props.id,
-            title:this.props.title,
-            description:this.props.description,
-            price:this.props.price
-        })
         const book = [{
-            id:this.props.id,
+            _id:this.props._id,
             title:this.props.title,
             description:this.props.description,
             price:this.props.price

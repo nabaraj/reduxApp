@@ -15,10 +15,10 @@ class BooksList extends Component{
     render(){
         const BooksItem = this.props.books.map(function(booksArr){
             return(
-                <Col xs={12} md={4} key={booksArr.id}>
+                <Col xs={12} md={4} key={booksArr._id}>
                     <BookItem 
                          
-                        id={booksArr.id}
+                        _id={booksArr._id}
                         title= {booksArr.title}
                         description={booksArr.description}
                         price = {booksArr.price} />

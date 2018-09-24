@@ -1,6 +1,6 @@
 "use strict"
 import React,{Component} from 'react';
-import {Well, Col, Panel, Row, FormControl, FormGroup, ControlLabel, Button} from 'react-bootstrap';
+import {Well, Col, Panel, Row, FormControl, FormGroup, ButtonGroup, Button, Label} from 'react-bootstrap';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {addToCart} from '../../actions/cartActions';
@@ -19,13 +19,28 @@ class Cart extends Component{
     renderCart(){
         const cartItemsList = this.props.cart.map(function(cartArr){
             return(
-                <Panel key={cartArr.id}>
-
+                <Panel key={cartArr._id} style={{margin:'7px 15px'}}>
+                <Panel.Body>
                     <Row>
                         <Col xs={12} sm={4}>
-                            <h6>{cartArr.title}</h6>
+                            <h6>{cartArr.title}</h6> <span> </span>
+                        </Col>
+                        <Col xs={12} sm={2}>
+                            <h6>usd. {cartArr.price}</h6>
+                        </Col>
+                        <Col xs={12} sm={2}>
+                            <h6>qty. <Label bsStyle="success"></Label></h6>
+                        </Col>
+                        <Col xs={6} sm={4}>
+                            <ButtonGroup style={{minWidth:'300px'}}>
+                                <Button bsStyle="default" bsSize="small">-</Button>
+                                <Button bsStyle="default" bsSize="small">+</Button>
+                                <span>     </span>
+                                <Button bsStyle="danger" bsSize="small">Delete</Button>
+                            </ButtonGroup>
                         </Col>
                     </Row>
+                </Panel.Body>
                 </Panel>
             )
         })
