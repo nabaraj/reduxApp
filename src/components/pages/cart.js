@@ -1,11 +1,34 @@
 "use strict"
 import React,{Component} from 'react';
-import {Well, Col, Panel, Row, FormControl, FormGroup, ButtonGroup, Button, Label} from 'react-bootstrap';
+import {Col, Panel, Row, ButtonGroup, Button, Label} from 'react-bootstrap';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import {addToCart} from '../../actions/cartActions';
+import { deleteCartItem, updateCart} from '../../actions/cartActions';
 
 class Cart extends Component{
+	onDelete(_id){
+		// Create a copy of the current array of books
+    const currentBookToDelete = this.props.cart;
+    // Determine at which index in books array is the book to be deleted
+    const indexToDelete = currentBookToDelete.findIndex(
+      function(cart){
+        return cart._id === _id;
+      }
+    )
+    //use slice to remove the book at the specified index
+    let cartAfterDelete = [...currentBookToDelete.slice(0, indexToDelete), ...currentBookToDelete.slice(indexToDelete + 1)]
+
+    this.props.deleteCartItem(cartAfterDelete);
+	}
+	onIncrement(_id){
+		this.props.updateCart(_id,1);
+	}
+	onDecrement(_id, quantity){
+		if(quantity>1){
+			this.props.updateCart(_id,-1);
+		}
+		
+	}
     render(){
         if(this.props.cart[0]){
             return this.renderCart();
@@ -19,8 +42,8 @@ class Cart extends Component{
     renderCart(){
         const cartItemsList = this.props.cart.map(function(cartArr){
             return(
-                <Panel key={cartArr._id} style={{margin:'7px 15px'}}>
-                <Panel.Body>
+                
+                <Panel.Body key={cartArr._id}>
                     <Row>
                         <Col xs={12} sm={4}>
                             <h6>{cartArr.title}</h6> <span> </span>
@@ -29,25 +52,25 @@ class Cart extends Component{
                             <h6>usd. {cartArr.price}</h6>
                         </Col>
                         <Col xs={12} sm={2}>
-                            <h6>qty. <Label bsStyle="success"></Label></h6>
+                            <h6>qty. <Label bsStyle="success">{cartArr.quantity}</Label></h6>
                         </Col>
-                        <Col xs={6} sm={4}>
-                            <ButtonGroup style={{minWidth:'300px'}}>
-                                <Button bsStyle="default" bsSize="small">-</Button>
-                                <Button bsStyle="default" bsSize="small">+</Button>
+                        <Col xs={6} sm={4} className="text-right">
+                            <ButtonGroup>
+                                <Button onClick={this.onDecrement.bind(this, cartArr._id, cartArr.quantity)} bsStyle="default" bsSize="small">-</Button>
+                                <Button onClick={this.onIncrement.bind(this, cartArr._id)} bsStyle="default" bsSize="small">+</Button>
                                 <span>     </span>
-                                <Button bsStyle="danger" bsSize="small">Delete</Button>
+                                <Button bsStyle="danger" bsSize="small" onClick={this.onDelete.bind(this, cartArr._id)}>Delete</Button>
                             </ButtonGroup>
                         </Col>
                     </Row>
                 </Panel.Body>
-                </Panel>
             )
-        })
+        },this)
         return (
             <Panel header="Cart" bsStyle="primary">
                 <Panel.Heading>Cart</Panel.Heading>
-                {cartItemsList}
+								{cartItemsList}
+								<Panel.Footer>Panel footer</Panel.Footer>
             </Panel>
         )
     }
@@ -57,4 +80,10 @@ function mapStateToProps(state){
         cart:state.cart.cart
     }
 }
-export default connect(mapStateToProps)(Cart);
+function mapDispatchToProps(dispatch){
+	return bindActionCreators({
+		deleteCartItem:deleteCartItem,
+		updateCart:updateCart
+	},dispatch)
+}
+export default connect(mapStateToProps,mapDispatchToProps)(Cart);
