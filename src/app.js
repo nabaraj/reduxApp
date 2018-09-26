@@ -5,6 +5,8 @@ import ReactDOM from 'react-dom';
 import {Provider} from 'react-redux';
 import {createStore, applyMiddleware} from 'redux';
 import logger from 'redux-logger';
+import Menu from './components/menu';
+import Footer from './components/footer';
 
 
 
@@ -26,7 +28,8 @@ import BooksList from './components/pages/booksList';
 
 ReactDOM.render(
     <Provider store={store}>
-    <BooksList /></Provider>, document.getElementById('app')
+    <div><Menu/><BooksList /><Footer/></div>
+    </Provider>, document.getElementById('app')
 )
 
 

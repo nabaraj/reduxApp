@@ -1,11 +1,17 @@
 "use strict"
 import React,{Component} from 'react';
-import {Col, Panel, Row, ButtonGroup, Button, Label} from 'react-bootstrap';
+import {Col, Panel, Row, ButtonGroup, Button, Label, Modal} from 'react-bootstrap';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import { deleteCartItem, updateCart} from '../../actions/cartActions';
 
 class Cart extends Component{
+	constructor(props){
+		super(props);
+		this.state={
+			showModal:false
+		}
+	}
 	onDelete(_id){
 		// Create a copy of the current array of books
     const currentBookToDelete = this.props.cart;
@@ -22,6 +28,16 @@ class Cart extends Component{
 	}
 	onIncrement(_id){
 		this.props.updateCart(_id,1);
+	}
+	openModal(){
+		this.setState({
+			showModal:true
+		})
+	}
+	handleClose(){
+		this.setState({
+			showModal:false
+		})
 	}
 	onDecrement(_id, quantity){
 		if(quantity>1){
@@ -70,14 +86,39 @@ class Cart extends Component{
             <Panel header="Cart" bsStyle="primary">
                 <Panel.Heading>Cart</Panel.Heading>
 								{cartItemsList}
-								<Panel.Footer>Panel footer</Panel.Footer>
+								<Panel.Footer>
+									<Row>
+										<Col xs={12}>
+										<h6>Total Amount: $:{this.props.totalAmount}</h6>
+										<Button bsStyle="success" bsSize="small" onClick={this.openModal.bind(this)}>Proceed to checkout</Button>
+										</Col>
+									</Row>
+									<Modal show={this.state.showModal} onHide={this.handleClose.bind(this)}>
+										<Modal.Header closeButton>
+											<Modal.Title>Modal heading</Modal.Title>
+										</Modal.Header>
+										<Modal.Body>
+											<h4>Your order has been saved</h4>
+											<p>you will recieve an email confirmation</p>
+											
+										</Modal.Body>
+										<Modal.Footer>
+											<Col xs={6}>
+												<h6>total $:{this.props.totalAmount}</h6>
+											</Col>
+											<Button onClick={this.handleClose.bind(this)}>Close</Button>
+										</Modal.Footer>
+									</Modal>
+								</Panel.Footer>
+								
             </Panel>
         )
     }
 }
 function mapStateToProps(state){
     return {
-        cart:state.cart.cart
+				cart:state.cart.cart,
+				totalAmount:state.cart.totalAmount
     }
 }
 function mapDispatchToProps(dispatch){
