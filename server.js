@@ -1,14 +1,12 @@
-"use strict"
-var express = require('express');
+"use strict";
+var express = require("express");
 var app = express();
-var path = require('path');
+var path = require("path");
 
-app.use(express.static('public'));
-app.get('/',function(req, res){
-    res.sendFile(path.resolve(__dirname, 'public','index.html'));
-
+app.use(express.static("public"));
+app.get("/", function(req, res) {
+  res.sendFile(path.resolve(__dirname, "public", "index.html"));
 });
-app.listen(4000,function(){
-    console.log('listening to 4000');
+app.listen(4000, function() {
+  console.log("listening to 4000");
 });
-

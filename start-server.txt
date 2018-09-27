@@ -1,0 +1,3 @@
+run mongodb
+=======================================
+~/database/mongodb/bin$ ./mongod --dbpath ~/database/mongodb/reactreduxudemy/
