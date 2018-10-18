@@ -8,6 +8,7 @@ import { Router, Route, IndexRoute, browserHistory } from "react-router";
 
 import { createStore, applyMiddleware } from "redux";
 import logger from "redux-logger";
+import thunk from "redux-thunk";
 
 //Step 3 define reducers
 import reducers from "./reducers";
@@ -17,7 +18,7 @@ import { addToCart } from "./actions/cartActions";
 import { postBooks, deleteBooks, updateBooks } from "./actions/booksActions";
 
 // step 1 create the store\
-const middleWare = applyMiddleware(logger);
+const middleWare = applyMiddleware(thunk, logger);
 //console.log(middleWare);
 const store = createStore(reducers, middleWare);
 
