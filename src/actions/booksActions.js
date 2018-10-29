@@ -5,7 +5,7 @@ function postBooks(book) {
   console.log(book);
   return function(dispatch) {
     axios
-      .post("/books", book)
+      .post("/api/books", book)
       .then(function(response) {
         dispatch({ type: "POST_BOOK", payload: response.data });
       })
@@ -18,17 +18,32 @@ function postBooks(book) {
   //     payload:bookData
   // }
 }
-function getBooks(bookData) {
-  return {
-    type: "GET_BOOKS"
+function getBooks() {
+  return function(dispatch) {
+    axios
+      .get("/api/books")
+      .then(function(response) {
+        dispatch({ type: "GET_BOOKS", payload: response.data });
+      })
+      .catch(function(err) {
+        dispatch({ type: "GET_BOOKS_REJECTED", payload: err });
+      });
   };
 }
 
 //delete a book
 function deleteBooks(book) {
-  return {
-    type: "DELETE_BOOK",
-    payload: book
+  return function(dispatch) {
+    axios
+      .delete("/api/books/" + book._id)
+      .then(function(response) {
+        dispatch({ type: "DELETE_BOOK", payload: book });
+      })
+      .catch(function(err) {
+        dispatch({ type: "DELETE_BOOK_REJECTED", payload: err });
+      });
+    // type: "DELETE_BOOK",
+    // payload: book
   };
 }
 //update a book

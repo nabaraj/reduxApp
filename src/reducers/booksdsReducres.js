@@ -6,7 +6,7 @@ export function booksReducers(state = { books: [] }, action) {
       return { books: [...state.books, ...action.payload] };
       break;
     case "GET_BOOKS":
-      return { ...state, books: [...state.books] };
+      return { ...state, books: [...action.payload] };
       break;
     case "DELETE_BOOK":
       const currentBookToDelete = [...state.books];
