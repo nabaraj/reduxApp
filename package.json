@@ -3,7 +3,8 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node ./bin/www"
+    "start": "node ./bin/www & node apiServer.js",
+    "chrome-debug": "node  ./bin/www &  node --inspect apiServer.js"
   },
   "devDependencies": {
     "redux-logger": "^3.0.6",
@@ -20,6 +21,7 @@
     "debug": "~2.6.9",
     "express": "^4.16.3",
     "http-errors": "~1.6.2",
+    "http-proxy": "^1.17.0",
     "jade": "~1.11.0",
     "mongoose": "^5.2.18",
     "morgan": "~1.9.0",

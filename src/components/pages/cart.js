@@ -50,7 +50,7 @@ class Cart extends Component {
   }
   onDecrement(_id, quantity) {
     if (quantity > 1) {
-      this.props.updateCart(_id, -1, this.props, cart);
+      this.props.updateCart(_id, -1, this.props.cart);
     }
   }
   render() {
