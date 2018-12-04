@@ -1,12 +1,25 @@
 "use strict";
+import axios from "axios";
 
 // ADD TO CART
 
-export function addToCart(book) {
-  return {
-    type: "ADD_TO_CART",
-    payload: book
+export function addToCart(cart) {
+  return function(dispatch) {
+    axios.post("/api/cart", cart).then(function(response) {
+      dispatch({ type: "ADD_TO_CART", payload: response.data }).catch(function(
+        err
+      ) {
+        dispatch({
+          type: "ADD_TO_CART_REJECTED",
+          msg: "error when adding to cart"
+        });
+      });
+    });
   };
+  //   return {
+  //     type: "ADD_TO_CART",
+  //     payload: book
+  //   };
 }
 // ADD TO CART
 
@@ -27,6 +40,20 @@ export function updateCart(_id, unit, cart) {
     newBookToUpdate,
     ...currentBookToUpdate.slice(indexToUpdate + 1)
   ];
+
+  return function(dispatch) {
+    axios.post("/api/cart", cartUpdate).then(function(response) {
+      dispatch({ type: "UPDATE_CART", payload: response.data }).catch(function(
+        err
+      ) {
+        dispatch({
+          type: "ADD_TO_CART_REJECTED",
+          msg: "error when adding to cart"
+        });
+      });
+    });
+  };
+
   return {
     type: "UPDATE_CART",
     payload: cartUpdate

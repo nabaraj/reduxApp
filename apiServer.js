@@ -33,10 +33,11 @@ app.use(
     saveUnitialized: false,
     resave: false,
     cookie: { maxAge: 1000 * 60 * 60 * 24 * 2 },
+    //two days in miliseconds
     store: new MongoStore({ mongooseConnection: db, ttl: 2 * 24 * 60 * 60 })
   })
 );
-//SAVE TO SESSION
+//SAVE SESSION CART API
 app.post("/cart", function(req, res) {
   var cart = req.body;
   req.session.cart = cart;
@@ -46,6 +47,12 @@ app.post("/cart", function(req, res) {
     }
     res.json(req.session.cart);
   });
+});
+//GET SESSION CART API
+app.get("/cart", function(req, res) {
+  if (typeof req.session.cart !== "undefined") {
+    res.json(req.session.cart);
+  }
 });
 //end session set up
 
